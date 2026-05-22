@@ -9,6 +9,12 @@ data class AccountingRecord(
 )
 
 enum class DocumentType {
-    Invoice,
-    Bill,
+    INVOICE,
+    BILL,
 }
+
+fun DocumentType.toDisplayString(): String =
+    when (this) {
+        DocumentType.INVOICE -> "Sales Invoice"
+        DocumentType.BILL -> "Bill"
+    }

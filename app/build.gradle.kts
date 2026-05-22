@@ -1,11 +1,13 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "co.nz.tsb.interview.bankrecmatchmaker"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "co.nz.tsb.interview.bankrecmatchmaker"
@@ -37,7 +39,11 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.hilt.android.core)
+
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    ksp(libs.hilt.compiler)
+
+    androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.espresso.core)
 }
