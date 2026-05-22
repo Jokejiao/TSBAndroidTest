@@ -12,9 +12,3 @@ enum class DocumentType {
     INVOICE,
     BILL,
 }
-
-fun DocumentType.toDisplayString(): String =
-    when (this) {
-        DocumentType.INVOICE -> "Sales Invoice"
-        DocumentType.BILL -> "Bill"
-    }
