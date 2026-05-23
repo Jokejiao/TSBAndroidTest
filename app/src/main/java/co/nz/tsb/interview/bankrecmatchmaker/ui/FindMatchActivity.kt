@@ -97,10 +97,11 @@ class FindMatchActivity : AppCompatActivity() {
 
     companion object {
         const val TARGET_MATCH_VALUE = "co.nz.tsb.interview.target_match_value"
-//        private const val DEFAULT_TARGET_AMOUNT = 10_000f
+        private const val DEFAULT_TARGET_AMOUNT = 10_000f
 
         // Set to 108.6f to demonstrate Task 2 auto-selection behaviour.
         // In production the value should come from navigation arguments.
-        private const val DEFAULT_TARGET_AMOUNT = 108.6f
+
+//        private const val DEFAULT_TARGET_AMOUNT = 108.6f
     }
 }

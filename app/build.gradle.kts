@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "co.nz.tsb.interview.bankrecmatchmaker"
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.hilt.android.core)
 
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     ksp(libs.hilt.compiler)
 
     androidTestImplementation(libs.androidx.test.ext)
