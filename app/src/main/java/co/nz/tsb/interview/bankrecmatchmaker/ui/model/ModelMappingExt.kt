@@ -1,4 +1,6 @@
-package co.nz.tsb.interview.bankrecmatchmaker.data
+package co.nz.tsb.interview.bankrecmatchmaker.ui.model
+
+import co.nz.tsb.interview.bankrecmatchmaker.data.DocumentType
 
 fun DocumentType.toDisplayString(): String =
     when (this) {

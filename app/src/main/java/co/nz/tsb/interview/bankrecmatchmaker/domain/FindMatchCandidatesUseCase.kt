@@ -6,20 +6,26 @@ import javax.inject.Inject
 class FindMatchCandidatesUseCase
     @Inject
     constructor(
-        private val reconciliationRepository: ReconciliationRepository,
+        private val repository: ReconciliationRepository,
     ) {
-        suspend operator fun invoke(): List<MatchCandidate> {
-            val reconciliationData = reconciliationRepository.getReconciliationData()
-            val targetAmount = reconciliationData.transaction.amountInCents
+        suspend operator fun invoke(): ReconciliationResult {
+            val data = repository.getReconciliationData()
 
-            return reconciliationData.records
-                .filter {
-                    it.amountInCents == targetAmount
-                }.map { record ->
-                    MatchCandidate(
-                        records = listOf(record),
-                    )
-                }
+            val candidates =
+                data.records
+                    .filter {
+                        it.amountInCents == data.transaction.amountInCents
+                    }.map { record ->
+                        MatchCandidate(
+                            records = listOf(record),
+                        )
+                    }
+
+            return ReconciliationResult(
+                transaction = data.transaction,
+                records = data.records,
+                matchedCandidates = candidates,
+            )
 
             // TODO:
             // Extend this to find multi-record candidates where the sum of selected
