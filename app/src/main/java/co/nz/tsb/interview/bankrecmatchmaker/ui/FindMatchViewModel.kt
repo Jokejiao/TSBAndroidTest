@@ -31,6 +31,11 @@ class FindMatchViewModel
         private var selectedRecordIds: Set<String> = emptySet()
 
         fun loadReconciliationData(targetAmountInCents: Long) {
+            if (records.isNotEmpty() && this.targetAmountInCents == targetAmountInCents) {
+                publishUiState()
+                return
+            }
+
             this.targetAmountInCents = targetAmountInCents
 
             viewModelScope.launch {

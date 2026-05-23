@@ -1,4 +1,4 @@
-package co.nz.tsb.interview.bankrecmatchmaker
+package co.nz.tsb.interview.bankrecmatchmaker.ui
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.widget.Checkable
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatCheckBox
+import co.nz.tsb.interview.bankrecmatchmaker.R
 
-class CheckedListItem : LinearLayout, Checkable {
+class CheckedListItem :
+    LinearLayout,
+    Checkable {
     private var checkBox: AppCompatCheckBox? = null
 
     constructor(context: Context) : super(context) {
@@ -18,27 +21,32 @@ class CheckedListItem : LinearLayout, Checkable {
         init(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr,
+    ) {
         init(context)
     }
 
     private fun init(context: Context) {
         val layoutInflater = LayoutInflater.from(context)
         orientation = HORIZONTAL
-        checkBox = layoutInflater.inflate(R.layout.list_item_checkbox, this, false) as AppCompatCheckBox
+        checkBox =
+            layoutInflater.inflate(R.layout.list_item_checkbox, this, false) as AppCompatCheckBox
+
+        checkBox?.isClickable = false
+        checkBox?.isFocusable = false
         addView(checkBox, 0)
-        setOnClickListener { checkBox!!.toggle() }
     }
 
     override fun setChecked(checked: Boolean) {
-        checkBox!!.isChecked = checked
+        checkBox?.isChecked = checked
     }
 
-    override fun isChecked(): Boolean {
-        return checkBox!!.isChecked
-    }
+    override fun isChecked(): Boolean = checkBox?.isChecked ?: false
 
     override fun toggle() {
-        checkBox!!.toggle()
+        checkBox?.toggle()
     }
 }
