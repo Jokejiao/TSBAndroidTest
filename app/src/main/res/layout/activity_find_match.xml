@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,19 +19,44 @@
 
     <TextView
         android:id="@+id/match_text"
-        android:background="?attr/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="36dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/text_title_subtext"
         android:textSize="@dimen/text_size_subtext"
-        android:elevation="@dimen/toolbar_elevation"/>
+        tools:text="$250.00 remaining to match" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            android:visibility="gone"
+            tools:text="Unable to load reconciliation data." />
+
+    </FrameLayout>
 
 </LinearLayout>

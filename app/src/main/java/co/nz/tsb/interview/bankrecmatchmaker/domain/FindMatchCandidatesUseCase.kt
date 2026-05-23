@@ -1,30 +1,26 @@
 package co.nz.tsb.interview.bankrecmatchmaker.domain
 
-import co.nz.tsb.interview.bankrecmatchmaker.data.ReconciliationRepository
+import co.nz.tsb.interview.bankrecmatchmaker.data.AccountingRecordRepository
 import javax.inject.Inject
 
 class FindMatchCandidatesUseCase
     @Inject
     constructor(
-        private val repository: ReconciliationRepository,
+        private val accountingRecordRepository: AccountingRecordRepository,
     ) {
-        suspend operator fun invoke(): ReconciliationResult {
-            val data = repository.getReconciliationData()
+        suspend operator fun invoke(targetAmountInCents: Long): MatchResult {
+            val records = accountingRecordRepository.getAccountingRecords()
 
-            val candidates =
-                data.records
-                    .filter {
-                        it.amountInCents == data.transaction.amountInCents
-                    }.map { record ->
-                        MatchCandidate(
-                            records = listOf(record),
-                        )
+            val matchCandidates =
+                records
+                    .filter { it.amountInCents == targetAmountInCents }
+                    .map { record ->
+                        MatchCandidate(records = listOf(record))
                     }
 
-            return ReconciliationResult(
-                transaction = data.transaction,
-                records = data.records,
-                matchedCandidates = candidates,
+            return MatchResult(
+                records = records,
+                matchCandidates = matchCandidates,
             )
 
             // TODO:

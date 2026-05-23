@@ -3,10 +3,9 @@ package co.nz.tsb.interview.bankrecmatchmaker.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.nz.tsb.interview.bankrecmatchmaker.data.AccountingRecord
-import co.nz.tsb.interview.bankrecmatchmaker.data.BankTransaction
 import co.nz.tsb.interview.bankrecmatchmaker.domain.FindMatchCandidatesUseCase
 import co.nz.tsb.interview.bankrecmatchmaker.ui.model.AccountingRecordUiModel
-import co.nz.tsb.interview.bankrecmatchmaker.ui.model.ReconciliationUiState
+import co.nz.tsb.interview.bankrecmatchmaker.ui.model.FindMatchUiState
 import co.nz.tsb.interview.bankrecmatchmaker.ui.model.toDisplayString
 import co.nz.tsb.interview.bankrecmatchmaker.util.MoneyFormatter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,33 +17,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ReconciliationViewModel
+class FindMatchViewModel
     @Inject
     constructor(
         private val findMatchCandidatesUseCase: FindMatchCandidatesUseCase,
         private val moneyFormatter: MoneyFormatter,
     ) : ViewModel() {
-        private val _uiState = MutableStateFlow(ReconciliationUiState())
-        val uiState: StateFlow<ReconciliationUiState> = _uiState.asStateFlow()
+        private val _uiState = MutableStateFlow(FindMatchUiState())
+        val uiState: StateFlow<FindMatchUiState> = _uiState.asStateFlow()
 
-        private var transaction: BankTransaction? = null
+        private var targetAmountInCents: Long = 0L
         private var records: List<AccountingRecord> = emptyList()
         private var selectedRecordIds: Set<String> = emptySet()
 
-        init {
-            loadReconciliationData()
-        }
+        fun loadReconciliationData(targetAmountInCents: Long) {
+            this.targetAmountInCents = targetAmountInCents
 
-        fun loadReconciliationData() {
             viewModelScope.launch {
                 _uiState.update {
                     it.copy(isLoading = true, errorMessage = null)
                 }
 
                 runCatching {
-                    findMatchCandidatesUseCase()
+                    findMatchCandidatesUseCase(targetAmountInCents)
                 }.onSuccess { result ->
-                    transaction = result.transaction
                     records = result.records
 
                     // For this exercise, auto-select the first available exact match candidate.
@@ -52,7 +48,7 @@ class ReconciliationViewModel
                     // be able to present all candidates (e.g. one by one through clicking a button)
                     // and let the user confirm the correct one.
                     selectedRecordIds =
-                        result.matchedCandidates
+                        result.matchCandidates
                             .firstOrNull()
                             ?.records
                             ?.map { it.id }
@@ -80,20 +76,18 @@ class ReconciliationViewModel
         }
 
         private fun publishUiState() {
-            val transaction = transaction ?: return
-
             val selectedTotalInCents =
                 records
                     .filter { it.id in selectedRecordIds }
                     .sumOf { it.amountInCents }
 
             val remainingToMatchInCents =
-                transaction.amountInCents - selectedTotalInCents
+                targetAmountInCents - selectedTotalInCents
 
             _uiState.update {
                 it.copy(
                     isLoading = false,
-                    transactionAmountText = moneyFormatter.format(transaction.amountInCents),
+                    transactionAmountText = moneyFormatter.format(targetAmountInCents),
                     remainingToMatchText = moneyFormatter.format(remainingToMatchInCents),
                     records =
                         records.map { record ->
