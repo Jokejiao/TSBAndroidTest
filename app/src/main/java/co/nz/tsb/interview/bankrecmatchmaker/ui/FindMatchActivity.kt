@@ -100,8 +100,11 @@ class FindMatchActivity : AppCompatActivity() {
         private const val DEFAULT_TARGET_AMOUNT = 10_000f
 
         // Set to 108.6f to demonstrate Task 2 auto-selection behaviour.
-        // In production the value should come from navigation arguments.
-
+        // In production the value could come from navigation arguments.
 //        private const val DEFAULT_TARGET_AMOUNT = 108.6f
+
+        // Set to 944.09f to demonstrate Task 3 auto-selection behaviour.
+        // Please go to FindMatchViewModel.kt and uncomment the backtracking solution
+//        private const val DEFAULT_TARGET_AMOUNT = 944.09f
     }
 }

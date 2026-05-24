@@ -31,6 +31,7 @@ class FindMatchViewModel
         private var selectedRecordIds: Set<String> = emptySet()
 
         fun loadReconciliationData(targetAmountInCents: Long) {
+            // Avoid reloading/recalculating after configuration changes when ViewModel state is already available.
             if (records.isNotEmpty() && this.targetAmountInCents == targetAmountInCents) {
                 publishUiState()
                 return
@@ -102,7 +103,7 @@ class FindMatchViewModel
                                 transactionDate = record.transactionDate,
                                 amountText = moneyFormatter.format(record.amountInCents),
                                 documentType = record.documentType.toDisplayString(),
-                                isSelected = record.id in selectedRecordIds,
+                                isSelected = record.id in selectedRecordIds, // Checkbox state is fully driven by UI state (UDF).
                             )
                         },
                     errorMessage = null,

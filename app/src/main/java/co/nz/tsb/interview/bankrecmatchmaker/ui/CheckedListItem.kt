@@ -35,8 +35,10 @@ class CheckedListItem :
         checkBox =
             layoutInflater.inflate(R.layout.list_item_checkbox, this, false) as AppCompatCheckBox
 
+        // Prevent CheckBox from consuming clicks; the whole list item is the click target.
         checkBox?.isClickable = false
         checkBox?.isFocusable = false
+
         addView(checkBox, 0)
     }
 

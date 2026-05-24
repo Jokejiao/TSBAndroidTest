@@ -9,6 +9,7 @@ class DefaultAccountingRecordDataSource
     @Inject
     constructor() : AccountingRecordDataSource {
         override suspend fun getAccountingRecords(): List<AccountingRecord> {
+            // Simulate network delay
             delay(1_000)
 
             return listOf(
