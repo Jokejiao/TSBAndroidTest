@@ -1,6 +1,7 @@
 ## App architecture
 
-I refactored the initial codebase to be more modular according to **Clean Architecture** principles. The main components are:
+I refactored the initial codebase to be more modular according to **Clean Architecture** principles, while keeping the implementation lightweight and practical.
+The main components are:
 - **data**: Contains the data models and repositories for fetching and managing accounting records and transactions.
 - **domain**: Contains the business logic and use cases for handling bank reconciliation tasks.
 - **presentation**: Contains the UI components and state management for displaying the accounting records and transaction.
@@ -18,9 +19,9 @@ I refactored the initial codebase to be more modular according to **Clean Archit
 - The data layer SHOULD NOT be responsible for the UI display of the different types of records, so I created ModelMappingExt.kt to convert the record type to the display text
 
 ## Potential UX improvements:
-- Add a "Deselect All" button to allow users to quickly clear their selections. (while "Select All" might not be necessary since it's unlikely that all records will match the transaction total)
-- Add "Sort by Amount" and "Sort by Date" options to help users find matching records more easily.
-- When there are multiple match results, showing a button to enable the user to loop go through all the possible record combinations: click once, the next combination of records will be selected
+- Add a **Deselect All** button to allow users to quickly clear their selections. (while "Select All" might not be necessary since it's unlikely that all records will match the transaction total)
+- Add "**Sort by** Amount" and "Sort by Date" options to help users find matching records more easily.
+- If **multiple match candidates** are found, prioritise the most simple and likely match first, for example fewer records and larger amount records. A "Next Match" button could allow the user to browse other possible combinations.
 
 
 ## Task 1
@@ -29,7 +30,7 @@ Please run the app and directly test the task 1 result
 ## Task 2
 Please switch the target amount constant in FindMatchActivity.kt companion object block
 
-### Task 3 — Thought experiment (written response, no code)
+## Task 3
 Please switch the target amount constant in FindMatchActivity.kt companion object block
 Please enable the Task 3 implementation in FindMatchUseCase.kt as indicated in the comments.
 
