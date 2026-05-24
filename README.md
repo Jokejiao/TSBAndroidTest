@@ -31,40 +31,44 @@ Please run the app and directly test the task 1 result
 Please switch the target amount constant in FindMatchActivity.kt companion object block
 
 ## Task 3
-Please switch the target amount constant in FindMatchActivity.kt companion object block
+Please switch the target amount constant in FindMatchActivity.kt companion object block.<br>
 Please enable the Task 3 implementation in FindMatchUseCase.kt as indicated in the comments.
 
-This is basically a subset-sum problem.
-I use **backtracking + pruning + memoization** to solve it.
-The idea is pretty simple:
-Each record has 2 choices: pick it or skip it
-For example: target = 100, records = [60, 40, 30]
-First we try pick 60, then remaining = 40, then continue pick 40, remaining = 0, we found a match [60, 40]
-Then **backtracking** happens: remove 40, remove 60, and continue searching other possible combinations.
-This part is the code backtracking logic:
-`
+This is basically a subset-sum problem.<br>
+I use **backtracking + pruning + memoization** to solve it.<br>
+The idea is pretty simple:<br>
+Each record has 2 choices: pick it or skip it<br>
+For example: target = 100, records = [60, 40, 30]<br>
+First we try pick 60, then remaining = 40, then continue pick 40, remaining = 0, we found a match [60, 40]<br>
+Then **backtracking** happens: remove 40, remove 60, and continue searching other possible combinations.<br>
+This part is the code backtracking logic:<br>
+```kotlin
 selected += record
 dfs(...)
 selected.removeAt(selected.lastIndex)
-`
+```
 means: try current choice, search deeper, then undo the choice (backtrack) and try other choices.
 
-**Pruning** is used to avoid impossible search branches.
-Example: remaining = 40, current record = 60. Since 60 is already bigger than remaining amount, there is no point searching this branch further.
-`if (record.amountInCents > remaining) {
+**Pruning** is used to avoid impossible search branches.<br>
+Example: remaining = 40, current record = 60. Since 60 is already bigger than remaining amount, there is no point searching this branch further.<br>
+```kotlin
+if (record.amountInCents > remaining) {
     continue
-}`
+}
+```
 This can reduce a lot of unnecessary recursion.
 
-I also added failed state **memoization**.
-A state is: (startIndex, remaining) Example: (3, 25) means: starting from index 3, try to build remaining amount 25.
-If we already searched this state before and found no valid result, next time we hit same state we can directly return.
-`if (state in failedStates) {
+I also added failed state **memoization**.<br>
+A state is: (startIndex, remaining) Example: (3, 25) means: starting from index 3, try to build remaining amount 25.<br>
+If we already searched this state before and found no valid result, next time we hit same state we can directly return.<br>
+```kotlin
+if (state in failedStates) {
     return
-}`
+}
+```
 This avoids repeated failed searching.
 
-Worst case time complexity is still exponential:  **O(2^n)**, because finding all possible combinations may still need to search many subsets.
-But in real reconciliation scenarios, records count is usually not very large, and pruning + failed state cache can reduce a lot of unnecessary searching.
+Worst case time complexity is still exponential:  **O(2^n)**, because finding all possible combinations may still need to search many subsets.<br>
+But in real reconciliation scenarios, records count is usually not very large, and pruning + failed state cache can reduce a lot of unnecessary searching.<br>
 
 Other possible approaches: Dynamic Programming (possibly more complex to implement), Pure brute-force(very inefficient)
