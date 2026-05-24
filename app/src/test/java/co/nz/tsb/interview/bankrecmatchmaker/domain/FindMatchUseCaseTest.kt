@@ -10,7 +10,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class FindMatchCandidatesUseCaseTest {
+class FindMatchUseCaseTest {
     @Test
     fun `returns exact match candidate when one record amount equals target`() =
         runTest {
@@ -23,7 +23,7 @@ class FindMatchCandidatesUseCaseTest {
                         ),
                 )
 
-            val useCase = FindMatchCandidatesUseCase(repository)
+            val useCase = FindMatchUseCase(repository)
 
             val result = useCase(108_60)
 
@@ -50,7 +50,7 @@ class FindMatchCandidatesUseCaseTest {
                         ),
                 )
 
-            val useCase = FindMatchCandidatesUseCase(repository)
+            val useCase = FindMatchUseCase(repository)
 
             val result = useCase(10_000_00)
 

@@ -3,7 +3,7 @@ package co.nz.tsb.interview.bankrecmatchmaker.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.nz.tsb.interview.bankrecmatchmaker.data.AccountingRecord
-import co.nz.tsb.interview.bankrecmatchmaker.domain.FindMatchCandidatesUseCase
+import co.nz.tsb.interview.bankrecmatchmaker.domain.FindMatchUseCase
 import co.nz.tsb.interview.bankrecmatchmaker.ui.model.AccountingRecordUiModel
 import co.nz.tsb.interview.bankrecmatchmaker.ui.model.FindMatchUiState
 import co.nz.tsb.interview.bankrecmatchmaker.ui.model.toDisplayString
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class FindMatchViewModel
     @Inject
     constructor(
-        private val findMatchCandidatesUseCase: FindMatchCandidatesUseCase,
+        private val findMatchUseCase: FindMatchUseCase,
         private val moneyFormatter: MoneyFormatter,
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(FindMatchUiState())
@@ -45,7 +45,7 @@ class FindMatchViewModel
                 }
 
                 runCatching {
-                    findMatchCandidatesUseCase(targetAmountInCents)
+                    findMatchUseCase(targetAmountInCents)
                 }.onSuccess { result ->
                     records = result.records
 

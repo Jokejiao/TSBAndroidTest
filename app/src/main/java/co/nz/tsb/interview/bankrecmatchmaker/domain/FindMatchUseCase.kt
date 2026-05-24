@@ -4,7 +4,7 @@ import co.nz.tsb.interview.bankrecmatchmaker.data.AccountingRecord
 import co.nz.tsb.interview.bankrecmatchmaker.data.AccountingRecordRepository
 import javax.inject.Inject
 
-class FindMatchCandidatesUseCase
+class FindMatchUseCase
     @Inject
     constructor(
         private val accountingRecordRepository: AccountingRecordRepository,
